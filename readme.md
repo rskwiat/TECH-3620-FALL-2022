@@ -17,6 +17,7 @@ All Code for in-class applications and recordings
 )
 - [Firebase](https://firebase.google.com/)
 - [Expo](https://expo.dev/)
+- [Expo Icons](https://icons.expo.fyi/)
 
 ## Setup Instructions
 
@@ -74,5 +75,36 @@ sudo npm install --global expo-cli
 There are [other prefered workarounds](https://stackoverflow.com/questions/48910876/error-eacces-permission-denied-access-usr-local-lib-node-modules), but for our class needs this should be ok.
 
 
-## Initilizing an Expo Project
+## Initilizing an Expo Project with React Native Elements
 
+In the powershell / terrminal initialize the application by running one of the following commands, both do the same exact thing:
+
+```
+expo init redditAppViewer
+```
+
+If you recieve an error stating that expo-cli did not install run:
+
+```
+npx expo-cli init redditAppViewer
+```
+
+Next change into the new directory by running
+
+```
+cd redditAppViewer/
+```
+
+Finally install the `react-native-elements` and `react-native-safe-area-context` pacakges:
+
+```
+npm install @rneui/themed @rneui/base
+```
+> Installs all the **RNE** Packages needed to get the app running.
+
+
+```
+npm install react-native-safe-area-context
+```
+
+> Installs the **SafeAreaProvider** function needed for React Native to detect non-uniform screens (iPhone Notch, Dynamic Island, Hole Punches, etc).
