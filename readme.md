@@ -108,3 +108,21 @@ npm install react-native-safe-area-context
 ```
 
 > Installs the **SafeAreaProvider** function needed for React Native to detect non-uniform screens (iPhone Notch, Dynamic Island, Hole Punches, etc).
+
+## Installing @react-navigation libraries
+
+To navigate between several screens we are going to need several `@react-navigation` libraries.
+
+```
+  npm install @react-navigation/native react-native-screens
+```
+
+```
+npm install @react-navigation/native-stack
+```
+
+```
+npm install @react-navigation/bottom-tabs
+```
+
+
