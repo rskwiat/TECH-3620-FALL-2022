@@ -1,33 +1,43 @@
-import { Header, Text, Button } from '@rneui/themed';
-import { View } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Feather } from "@expo/vector-icons";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const HomeScreen = ({ navigation }) => (
-  <View>
-    <Header
-      leftComponent="Home"
-      rightComponent={<Feather size={30} name="settings" />}
-    />
-    <Text>Home Screen</Text>
-    <Button onPress={() => navigation.navigate("About")} title="About Screen" />
-  </View>
-);
-
-const AboutScreen = ({ navigation }) => (
-    <View>
-    <Header
-      leftComponent="About"
-      rightComponent={<Feather size={30} name="settings" />}
-    />
-    <Text>About Screen</Text>
-    <Button onPress={() => navigation.navigate("Home")} title="Home Screen" />
-  </View>
-);
+import {
+  HomeScreen,
+  FavoritesScreen,
+  SettingsScreen,
+} from "./src/screens";
 
 const Stack = createNativeStackNavigator();
+const Tabs = createBottomTabNavigator();
+
+const TabScreen = () => (
+  <Tabs.Navigator screenOptions={({ route }) => ({
+    tabBarIcon: ({ color, size }) => {
+      let iconName;
+      if (route.name === "Listing") {
+        iconName = "home";
+      }
+
+      if (route.name === "Favorites") {
+        iconName = "heart";
+      }
+
+      return (
+        <Feather 
+          name={iconName}
+          size={size}
+          color={color}
+        />
+      );
+    },
+    headerShown: false
+  })}>
+    <Tabs.Screen name="Listing" component={HomeScreen} />
+    <Tabs.Screen name="Favorites" component={FavoritesScreen} />
+  </Tabs.Navigator>
+);
 
 const App = () => {
   return (
@@ -35,8 +45,8 @@ const App = () => {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="About" component={AboutScreen} />
+        <Stack.Screen name="Home" component={TabScreen} />
+        <Stack.Screen name="About" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
