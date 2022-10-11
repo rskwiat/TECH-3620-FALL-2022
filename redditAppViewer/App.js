@@ -43,10 +43,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName="Settings"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={TabScreen} />
-        <Stack.Screen name="About" component={SettingsScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
