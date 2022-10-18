@@ -18,12 +18,12 @@ const SettingsScreen = ({ navigation }) => {
   }, []);
 
   return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Header
           leftComponent="Settings"
           rightComponent={<Feather size={30} name="settings" />}
         />
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container} scrollToOverflowEnabled>
           {settingsData?.response.map((data) => {
             return (
               <View key={data.id} style={styles.content}>
@@ -42,7 +42,7 @@ const SettingsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
   },
   content: {
     marginBottom: 20
