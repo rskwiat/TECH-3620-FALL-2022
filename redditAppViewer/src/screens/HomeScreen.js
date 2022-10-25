@@ -1,12 +1,12 @@
 import { View } from "react-native";
-import { Header, Text, Button } from "@rneui/themed";
-import { Feather } from "@expo/vector-icons";
+import { Text, Button } from "@rneui/themed";
+import { CustomHeader } from "../components";
 
-const HomeScreen = ({ navigation }) => (
+const HomeScreen = ({ navigation, route }) => (
   <View>
-    <Header
-      leftComponent="Home"
-      rightComponent={<Feather size={30} name="settings" />}
+    <CustomHeader 
+      navigation={navigation} 
+      routeName={route.name}
     />
     <Text>Home Screen</Text>
     <Button onPress={() => navigation.navigate("About")} title="About Screen" />

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Header, Text } from "@rneui/themed";
-import { Feather } from "@expo/vector-icons";
 import { API } from "../utils/constants";
+import { CustomHeader } from "../components";
 
-const SettingsScreen = ({ navigation }) => {
+const SettingsScreen = ({ navigation, route }) => {
   const [settingsData, setSettingsData] = useState();
 
   useEffect(() => {
@@ -19,9 +19,9 @@ const SettingsScreen = ({ navigation }) => {
 
   return (
       <View style={{ flex: 1 }}>
-        <Header
-          leftComponent="Settings"
-          rightComponent={<Feather size={30} name="settings" />}
+        <CustomHeader
+          navigation={navigation}
+          routeName={route.name}
         />
         <ScrollView style={styles.container} scrollToOverflowEnabled>
           {settingsData?.response.map((data) => {
