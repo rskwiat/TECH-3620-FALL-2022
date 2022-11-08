@@ -35,6 +35,7 @@ export const SettingsSlice = createSlice({
     });
     builder.addCase(getPrivacyDetails.rejected, (state) => {
       state.isFetchError = true;
+      state.isLoading = false;
       state.errorMessage = "An error has occurred";
       state.statusCode = "500";
     });

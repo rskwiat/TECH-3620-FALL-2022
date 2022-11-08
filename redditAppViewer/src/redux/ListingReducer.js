@@ -10,6 +10,7 @@ const initialState = {
     data: []
   },
   favorites: null,
+  selected: null,
 };
 
 //async thunk
@@ -22,6 +23,11 @@ export const getListingDetails = createAsyncThunk("listing/getListing", async ()
 export const ListingSlice = createSlice({
   name: "listing",
   initialState,
+  reducers: {
+    selectedImage: (state, action) => {
+      state.selected = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(getListingDetails.pending, (state) => {
       state.isLoading = true;
@@ -33,10 +39,13 @@ export const ListingSlice = createSlice({
     });
     builder.addCase(getListingDetails.rejected, (state) => {
       state.isFetchError = true;
+      state.isLoading = false;
       state.errorMessage = "An error has occurred";
       state.statusCode = "500";
     });
   }
 });
+
+export const { selectedImage } = ListingSlice.actions;
 
 export default ListingSlice.reducer;

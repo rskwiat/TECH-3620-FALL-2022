@@ -9,3 +9,5 @@ export const Theme = {
     black: "#222",
   }
 }
+
+export const PLACEHOLDER_IMAGE = "https://via.placeholder.com/150";
