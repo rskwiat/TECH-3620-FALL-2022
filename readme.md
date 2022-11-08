@@ -125,4 +125,17 @@ npm install @react-navigation/native-stack
 npm install @react-navigation/bottom-tabs
 ```
 
+## Installing redux / redux-toolkit libraries
+
+Redux is the industry standard for global state management in React / React Native applications. Redux Toolkit / RTK is an "The official, opinionated, batteries-included toolset for efficient Redux development".
+
+[Redux Toolkit Tutorial FreeCodeCamp](https://www.youtube.com/watch?v=bbkBuqC1rU4)
+[Redux by Dan Abramov](https://egghead.io/courses/fundamentals-of-redux-course-from-dan-abramov-bd5cc867)
+
+```
+npm install react-redux @redux-toolkit
+```
+
+Create the new files for `src/store.js` and your reducers in a new `redux` folder. In the `App.js` file, we need to wrap the `<App />` in a `<Provider>` tag from `react-redux`.
+
 
