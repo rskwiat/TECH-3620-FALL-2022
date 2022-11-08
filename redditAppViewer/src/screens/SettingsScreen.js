@@ -1,20 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { Header, Text } from "@rneui/themed";
-import { API } from "../utils/constants";
-import { CustomHeader } from "../components";
+import { Text } from "@rneui/themed";
+import { useDispatch, useSelector } from "react-redux";
+import { CustomHeader, Loading } from "../components";
+import { getPrivacyDetails } from "../redux/SettingsReducer";
 
 const SettingsScreen = ({ navigation, route }) => {
-  const [settingsData, setSettingsData] = useState();
+  const dispatch = useDispatch();
+  const { response, isLoading, isFetchError } = useSelector(state => state.settings);
 
   useEffect(() => {
-    const getPrivacyDetails = async () => {
-      const res = await fetch(`${API.service}/privacyPolicy`);
-      const data = await res.json();
-      setSettingsData(data);
-    };
-
-    getPrivacyDetails();
+    if (response.data.length === 0) {
+      dispatch(getPrivacyDetails());
+    }
   }, []);
 
   return (
@@ -24,17 +22,18 @@ const SettingsScreen = ({ navigation, route }) => {
           routeName={route.name}
         />
         <ScrollView style={styles.container} scrollToOverflowEnabled>
-          {settingsData?.response.map((data) => {
-            return (
-              <View key={data.id} style={styles.content}>
-                {/* Checks if the header object exists and renders it, fixes the empty double space row */}
-                {data.header && (
-                  <Text h3 h3Style={styles.headerStyle}>{data.header}</Text>
-                )}
-                <Text>{data.text}</Text>
-              </View>
-            )
-          })}
+        {isLoading && <Loading />}
+        {response && response.data.map((data) => {
+          return (
+            <View key={data.id} style={styles.content}>
+              {/* Checks if the header object exists and renders it, fixes the empty double space row */}
+              {data.header && (
+                <Text h3 h3Style={styles.headerStyle}>{data.header}</Text>
+              )}
+              <Text>{data.text}</Text>
+            </View>
+          );
+        })}
         </ScrollView>
       </View>
     );
