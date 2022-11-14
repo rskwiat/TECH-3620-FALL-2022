@@ -9,7 +9,7 @@ const initialState = {
   response: {
     data: []
   },
-  favorites: null,
+  favorites: [],
   selected: null,
 };
 
@@ -26,7 +26,16 @@ export const ListingSlice = createSlice({
   reducers: {
     selectedImage: (state, action) => {
       state.selected = action.payload;
-    }
+    },
+    addToFavorites: (state, action) => {
+      const id = state.favorites.map(item => item.id).includes(action.payload.id);
+      if (!id) {
+        state.favorites.push(action.payload);
+      }
+    },
+    removeFromFavorites: (state, action) => {
+      state.favorites.splice(action.payload.id, 1);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getListingDetails.pending, (state) => {
@@ -46,6 +55,6 @@ export const ListingSlice = createSlice({
   }
 });
 
-export const { selectedImage } = ListingSlice.actions;
+export const { selectedImage, addToFavorites, removeFromFavorites } = ListingSlice.actions;
 
 export default ListingSlice.reducer;
