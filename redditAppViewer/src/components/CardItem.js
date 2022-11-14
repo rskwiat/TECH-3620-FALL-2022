@@ -1,11 +1,12 @@
 import { View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Card, Button, Text } from "@rneui/themed";
 import { Theme } from "../utils/constants";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectedImage, addToFavorites, removeFromFavorites } from "../redux/ListingReducer";
 
 const CardItem = ({ title, author, thumbnail, fullscreenImage, toggleOverlay, favoriteData, clickToDelete }) => {
   const dispatch = useDispatch();
+  const { darkMode } = useSelector(state => state.settings);
 
   const ButtonOnPress = () => {
     if (clickToDelete) {
@@ -16,7 +17,11 @@ const CardItem = ({ title, author, thumbnail, fullscreenImage, toggleOverlay, fa
   }
 
   return (
-    <Card>
+    <Card
+      containerStyle={{
+        backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white,
+      }}
+    >
       <View style={styles.row}>
         <TouchableOpacity
           onPress={() => {
@@ -30,8 +35,8 @@ const CardItem = ({ title, author, thumbnail, fullscreenImage, toggleOverlay, fa
           />
         </TouchableOpacity>
         <View style={styles.column}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.author}>{author}</Text>
+          <Text style={darkMode ? styles.titleDarkMode : styles.title}>{title}</Text>
+          <Text style={darkMode ? styles.authorDarkMode : styles.author}>{author}</Text>
           <Button
             icon={{
               name: clickToDelete ? "trash" : "heart",
@@ -65,11 +70,25 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    color: Theme.colors.black,
+  },
+  titleDarkMode: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: Theme.colors.white,
   },
   author: {
     fontSize: 14,
     fontStyle: "italic",
     marginBottom: 20,
+    color: Theme.colors.black,
+  },
+  authorDarkMode: {
+    fontSize: 14,
+    fontStyle: "italic",
+    marginBottom: 20,
+    color: Theme.colors.white,
   },
 });
 

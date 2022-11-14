@@ -1,9 +1,12 @@
 import { Header, Text } from "@rneui/themed";
 import { StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 import { Theme } from "../utils/constants";
 
 const CustomHeader = ({ navigation, routeName }) => {
+  const { darkMode } = useSelector(state => state.settings);
+
   const onNavigate = (name) => {
     navigation.navigate(name);
   }
@@ -14,6 +17,7 @@ const CustomHeader = ({ navigation, routeName }) => {
         <Feather
           size={Theme.iconSize}
           name="home"
+          color={darkMode ? Theme.colors.white : Theme.colors.black}
           onPress={() => onNavigate("Home")}
         />
       );
@@ -26,19 +30,21 @@ const CustomHeader = ({ navigation, routeName }) => {
       leftComponent={renderHomeIcon()}
       placement="left"
       centerComponent={
-        <Text 
+        <Text
           style={styles.headerText}
         >
           {routeName}
         </Text>
       }
       rightComponent={
-        <Feather 
+        <Feather
           size={Theme.iconSize}
+          color={darkMode ? Theme.colors.white : Theme.colors.black}
           name="settings"
           onPress={() => onNavigate("Settings")}
         />
       }
+      backgroundColor={darkMode ? Theme.colors.black : ""}
     />
   );
 }
