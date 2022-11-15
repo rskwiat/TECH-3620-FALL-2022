@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { View } from "react-native";
-import { Text, Button } from "@rneui/themed";
+import { ScrollView, View, StyleSheet, Image } from "react-native";
+import { Text, Button, Card } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CustomHeader } from "../components";
@@ -8,7 +8,7 @@ import { getListingDetails } from "../redux/ListingReducer";
 
 const HomeScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.listing);
+  const { response, isLoading, isFetchError } = useSelector((state) => state.listing);
 
   useEffect(() => {
     dispatch(getListingDetails());
@@ -16,12 +16,26 @@ const HomeScreen = ({ navigation, route }) => {
 
   return (
     <View>
-      <CustomHeader 
-        navigation={navigation} 
+      <CustomHeader
+        navigation={navigation}
         routeName={route.name}
       />
-      <Text>Home Screen</Text>
-      <Button onPress={() => navigation.navigate("About")} title="About Screen" />
+      <ScrollView>
+        {response?.data?.children?.map(({ data }) => {
+          const thumbnail = (data.thumbnail === "nsfw") ? "https://via.placeholder.com/150" : data.thumbnail;
+
+          return (
+            <Card key={data.id}>
+              <Image
+                style={{ width: 250, height: 250 }}
+                source={{ uri: thumbnail }}
+              />
+              <Text>{data.title}</Text>
+              <Text>{data.author}</Text>
+            </Card>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 }
