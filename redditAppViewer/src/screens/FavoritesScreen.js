@@ -4,11 +4,12 @@ import { Card } from "@rneui/themed";
 import { useSelector } from "react-redux";
 
 import { CustomHeader, CardItem, CustomOverlay } from "../components";
-import { PLACEHOLDER_IMAGE } from "../utils/constants";
+import { PLACEHOLDER_IMAGE, Theme } from "../utils/constants";
 
 const FavoritesScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const { selected, favorites } = useSelector((state) => state.listing);
+  const { darkMode } = useSelector((state) => state.settings);
 
   const toggleOverlay = () => {
     setVisible(!visible);
@@ -39,7 +40,9 @@ const FavoritesScreen = ({ navigation, route }) => {
         navigation={navigation}
         routeName={route.name}
       />
-      <ScrollView>
+      <ScrollView style={{
+        backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white,
+      }}>
         {favorites.length > 0 ? renderCards() : <Card><Card.Title>No Favorites Saved</Card.Title></Card>}
         <CustomOverlay
           visible={visible}

@@ -54,7 +54,7 @@ const HomeScreen = ({ navigation, route }) => {
         navigation={navigation}
         routeName={route.name}
       />
-      {isLoading && <Loading />}
+      {<Loading />}
       <ScrollView style={{
         backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white,
       }}>

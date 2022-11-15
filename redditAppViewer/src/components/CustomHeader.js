@@ -31,7 +31,7 @@ const CustomHeader = ({ navigation, routeName }) => {
       placement="left"
       centerComponent={
         <Text
-          style={styles.headerText}
+          style={darkMode ? styles.darkHeaderText : styles.headerText}
         >
           {routeName}
         </Text>
@@ -51,9 +51,13 @@ const CustomHeader = ({ navigation, routeName }) => {
 
 const styles = StyleSheet.create({
   headerText: {
-    color: Theme.colors.white,
+    color: Theme.colors.black,
     fontSize: 18,
   },
-})
+  darkHeaderText: {
+    color: Theme.colors.white,
+    fontSize: 18,
+  }
+});
 
 export default CustomHeader;

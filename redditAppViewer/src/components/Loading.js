@@ -1,24 +1,45 @@
-import { View, StyleSheet } from "react-native";
+import { View, ActivityIndicator, Animated, Easing, StyleSheet } from "react-native";
 import { Text } from "@rneui/themed";
 import { Feather } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+
 import { Theme } from "../utils/constants";
 
-const Loading = () => (
-  <View style={styles.container}>
-    <Feather name="loader" size={Theme.iconSize} />
-    <Text h4 h4Style={styles.h4}>Loading...</Text>
-  </View>
-);
+const Loading = () => {
+  const { darkMode } = useSelector(state => state.settings);
+
+  return (
+    <View style={darkMode ? styles.darkContainer : styles.container}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    margin: 100,
+    height: 200
   },
-  h4: {
+  darkContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Theme.colors.black,
+    margin: 100,
+    height: 200,
+  },
+  loadingText: {
     flex: 1,
     marginTop: 20,
+    color: Theme.colors.black,
+  },
+  darkLoadingText: {
+    flex: 1,
+    marginTop: 20,
+    color: Theme.colors.white,
   }
 })
 

@@ -23,7 +23,6 @@ const SettingsScreen = ({ navigation, route }) => {
         routeName={route.name}
       />
       <ScrollView style={darkMode ? styles.darkContainer : styles.container} scrollToOverflowEnabled>
-        {isLoading && <Loading />}
         <View style={styles.row}>
           <Text style={darkMode ? styles.darkText : ""}>Dark Mode</Text>
           <Switch
@@ -31,6 +30,7 @@ const SettingsScreen = ({ navigation, route }) => {
             onValueChange={() => dispatch(setDarkMode(!darkMode))}
           />
         </View>
+        {isLoading && <Loading />}
         {response && response.data.map((data) => {
           return (
             <View key={data.id} style={styles.content}>
