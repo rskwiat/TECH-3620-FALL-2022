@@ -1,18 +1,25 @@
-import { useEffect } from "react";
-import { ScrollView, View, StyleSheet, Image } from "react-native";
-import { Text, Button, Card } from "@rneui/themed";
+import { useEffect, useState } from "react";
+import { ScrollView, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Text, Button, Card, Overlay } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CustomHeader } from "../components";
-import { getListingDetails } from "../redux/ListingReducer";
+import { getListingDetails, selectImage, addToFavorites } from "../redux/ListingReducer";
 
 const HomeScreen = ({ navigation, route }) => {
+  const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const { response, isLoading, isFetchError } = useSelector((state) => state.listing);
+  const { response, isLoading, isFetchError, errorMessage, selectedImage } = useSelector((state) => state.listing);
 
   useEffect(() => {
     dispatch(getListingDetails());
+
   }, []);
+
+  const openLargeImage = (data) => {
+    setVisible(!visible);
+    dispatch(selectImage(data));
+  };
 
   return (
     <View>
@@ -21,20 +28,42 @@ const HomeScreen = ({ navigation, route }) => {
         routeName={route.name}
       />
       <ScrollView>
-        {response?.data?.children?.map(({ data }) => {
+        {isLoading && <Text>Loading</Text>}
+        {response && response?.data?.children?.map(({ data }) => {
           const thumbnail = (data.thumbnail === "nsfw") ? "https://via.placeholder.com/150" : data.thumbnail;
 
           return (
             <Card key={data.id}>
-              <Image
-                style={{ width: 250, height: 250 }}
-                source={{ uri: thumbnail }}
-              />
+              <TouchableOpacity onPress={() => openLargeImage(data)}>
+                <Image
+                  style={{ width: 250, height: 250 }}
+                  source={{ uri: thumbnail }}
+                />
+              </TouchableOpacity>
               <Text>{data.title}</Text>
               <Text>{data.author}</Text>
+              <Button
+                icon={{
+                  name: 'heart',
+                  type: 'feather',
+                  size: 24,
+                  color: 'white',
+                }}
+                onPress={() => dispatch(addToFavorites(data))}
+              />
             </Card>
           );
         })}
+        {selectedImage && <Overlay
+          isVisible={visible}
+          onBackdropPress={() => openLargeImage("")}
+        >
+          <Image
+            style={{ width: 350, height: 350 }}
+            source={{ uri: selectedImage?.url_overridden_by_dest }}
+          />
+        </Overlay>
+        }
       </ScrollView>
     </View>
   );
