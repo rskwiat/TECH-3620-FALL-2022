@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    margin: 100,
+    paddingTop: 50,
     height: 200
   },
   darkContainer: {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Theme.colors.black,
-    margin: 100,
+    paddingTop: 50,
     height: 200,
   },
   loadingText: {
