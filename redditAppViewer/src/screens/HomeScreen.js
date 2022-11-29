@@ -9,11 +9,24 @@ import { getListingDetails, selectImage, addToFavorites } from "../redux/Listing
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const { response, isLoading, isFetchError, errorMessage, selectedImage } = useSelector((state) => state.listing);
+  const { response, statusCode, message, isLoading, isFetchError, errorMessage, selectedImage } = useSelector((state) => state.listing);
+
+  const renderError = () => {
+    if (typeof response.data === "string") {
+      return (
+        <Card>
+          <Text>
+            An Error Occured Loading the data, please try again later
+          </Text>
+        </Card>
+      )
+    }
+  }
 
   useEffect(() => {
-    dispatch(getListingDetails());
-
+    if (response.data.length === 0) {
+      dispatch(getListingDetails());
+    }
   }, []);
 
   const openLargeImage = (data) => {
@@ -29,7 +42,9 @@ const HomeScreen = ({ navigation, route }) => {
       />
       <ScrollView>
         {isLoading && <Text>Loading</Text>}
-        {response && response?.data?.children?.map(({ data }) => {
+        {statusCode === 400 && <Text>{message}</Text>}
+        {renderError()}
+        {response?.data?.children?.map(({ data }) => {
           const thumbnail = (data.thumbnail === "nsfw") ? "https://via.placeholder.com/150" : data.thumbnail;
 
           return (

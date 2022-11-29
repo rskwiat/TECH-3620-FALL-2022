@@ -46,6 +46,7 @@ export const ListingSlice = createSlice({
       state.isLoading = false;
       state.response.data = action.payload.response.data;
       state.statusCode = action.payload.statusCode;
+      state.errorMessage = action.payload.message;
     });
     builder.addCase(getListingDetails.rejected, (state, action) => {
       state.isFetchError = true;
