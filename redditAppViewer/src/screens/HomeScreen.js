@@ -3,7 +3,7 @@ import { ScrollView, View, StyleSheet, Image, TouchableOpacity } from "react-nat
 import { Text, Button, Card, Overlay } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CustomHeader } from "../components";
+import { CustomHeader, CustomCard } from "../components";
 import { getListingDetails, selectImage, addToFavorites } from "../redux/ListingReducer";
 
 const HomeScreen = ({ navigation, route }) => {
@@ -48,25 +48,14 @@ const HomeScreen = ({ navigation, route }) => {
           const thumbnail = (data.thumbnail === "nsfw") ? "https://via.placeholder.com/150" : data.thumbnail;
 
           return (
-            <Card key={data.id}>
-              <TouchableOpacity onPress={() => openLargeImage(data)}>
-                <Image
-                  style={{ width: 250, height: 250 }}
-                  source={{ uri: thumbnail }}
-                />
-              </TouchableOpacity>
-              <Text>{data.title}</Text>
-              <Text>{data.author}</Text>
-              <Button
-                icon={{
-                  name: 'heart',
-                  type: 'feather',
-                  size: 24,
-                  color: 'white',
-                }}
-                onPress={() => dispatch(addToFavorites(data))}
-              />
-            </Card>
+            <CustomCard
+              key={data.id}
+              author={data.author}
+              title={data.title}
+              thumbnail={thumbnail}
+              onImagePress={() => openLargeImage(data)}
+              onButtonPress={() => dispatch(addToFavorites(data))}
+            />
           );
         })}
         {selectedImage && <Overlay

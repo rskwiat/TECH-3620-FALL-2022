@@ -37,6 +37,9 @@ export const ListingSlice = createSlice({
         state.favorites.push(action.payload)
       }
     },
+    removeFromFavorites: (state, action) => {
+      state.favorites.splice(action.payload.id, 1);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getListingDetails.pending, (state) => {
@@ -56,6 +59,6 @@ export const ListingSlice = createSlice({
   }
 });
 
-export const { selectImage, addToFavorites } = ListingSlice.actions;
+export const { selectImage, addToFavorites, removeFromFavorites } = ListingSlice.actions;
 
 export default ListingSlice.reducer;
