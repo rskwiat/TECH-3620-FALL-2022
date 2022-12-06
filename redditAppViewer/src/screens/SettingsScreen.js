@@ -4,10 +4,11 @@ import { Text, Switch } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomHeader, Loading } from "../components";
 import { getPrivacyDetails, setDarkMode } from "../redux/SettingsReducer";
+import { Theme } from "../utils/constants";
 
 const SettingsScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const { response, isLoading, isFetchError, darkMode } = useSelector(state => state.settings);
+  const { response, isLoading, darkMode } = useSelector(state => state.settings);
 
   useEffect(() => {
     if (response.data.length === 0) {
@@ -16,7 +17,7 @@ const SettingsScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
@@ -27,7 +28,7 @@ const SettingsScreen = ({ navigation, route }) => {
         alignItems: "center",
         margin: 18,
       }}>
-        <Text>Dark Mode</Text>
+        <Text style={{ color: darkMode ? Theme.colors.white : Theme.colors.black }}>Dark Mode</Text>
         <Switch
           value={darkMode}
           onValueChange={() => dispatch(setDarkMode(!darkMode))}
@@ -38,11 +39,18 @@ const SettingsScreen = ({ navigation, route }) => {
         {response && response.data.map((data) => {
           return (
             <View key={data.id} style={styles.content}>
-              {/* Checks if the header object exists and renders it, fixes the empty double space row */}
               {data.header && (
-                <Text h3 h3Style={styles.headerStyle}>{data.header}</Text>
+                <Text h3
+                  h3Style={styles.headerStyle}
+                  style={{ color: darkMode ? Theme.colors.white : Theme.colors.black }}
+                >{data.header}</Text>
               )}
-              <Text>{data.text}</Text>
+              <Text
+                style={{
+                  color: darkMode ? Theme.colors.white : Theme.colors.black
+                }}>
+                {data.text}
+              </Text>
             </View>
           );
         })}
