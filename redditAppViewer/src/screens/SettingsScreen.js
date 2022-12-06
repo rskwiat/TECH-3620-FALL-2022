@@ -21,6 +21,7 @@ const SettingsScreen = ({ navigation, route }) => {
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
+        darkMode={darkMode}
       />
       <View style={{
         flexDirection: "row",

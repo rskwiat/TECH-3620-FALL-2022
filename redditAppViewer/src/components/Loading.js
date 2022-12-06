@@ -1,25 +1,10 @@
-import { View, StyleSheet } from "react-native";
-import { Text } from "@rneui/themed";
-import { Feather } from "@expo/vector-icons";
+import { View, ActivityIndicator } from "react-native";
 import { Theme } from "../utils/constants";
 
-const Loading = () => (
-  <View style={styles.container}>
-    <Feather name="loader" size={Theme.iconSize} />
-    <Text h4 h4Style={styles.h4}>Loading...</Text>
+const Loading = ({ darkMode }) => (
+  <View style={{ flex: 1, marginVertical: 30, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
+    <ActivityIndicator size="large" />
   </View>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  h4: {
-    flex: 1,
-    marginTop: 20,
-  }
-})
 
 export default Loading;

@@ -3,13 +3,15 @@ import { ScrollView, View, StyleSheet, Image, TouchableOpacity } from "react-nat
 import { Text, Button, Card, Overlay } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CustomHeader, CustomCard } from "../components";
+import { CustomHeader, CustomCard, Loading } from "../components";
+import { Theme } from "../utils/constants";
 import { getListingDetails, selectImage, addToFavorites } from "../redux/ListingReducer";
 
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const { response, statusCode, message, isLoading, isFetchError, errorMessage, selectedImage } = useSelector((state) => state.listing);
+  const { response, statusCode, message, isLoading, selectedImage } = useSelector((state) => state.listing);
+  const { darkMode } = useSelector((state) => state.settings);
 
   const renderError = () => {
     if (typeof response.data === "string") {
@@ -35,13 +37,14 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
+        darkMode={darkMode}
       />
       <ScrollView>
-        {isLoading && <Text>Loading</Text>}
+        {isLoading && <Loading darkMode={darkMode} />}
         {statusCode === 400 && <Text>{message}</Text>}
         {renderError()}
         {response?.data?.children?.map(({ data }) => {
@@ -55,6 +58,7 @@ const HomeScreen = ({ navigation, route }) => {
               thumbnail={thumbnail}
               onImagePress={() => openLargeImage(data)}
               onButtonPress={() => dispatch(addToFavorites(data))}
+              darkMode={darkMode}
             />
           );
         })}

@@ -1,12 +1,14 @@
 import { useColorScheme } from "react-native";
 import { useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
+import { Text } from "@rneui/themed";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Provider, useDispatch } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { store } from "./src/store";
 import { setDarkMode } from "./src/redux/SettingsReducer";
+import { Theme } from "./src/utils/constants";
 
 import {
   HomeScreen,
@@ -17,32 +19,48 @@ import {
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
-const TabScreen = () => (
-  <Tabs.Navigator screenOptions={({ route }) => ({
-    tabBarIcon: ({ color, size }) => {
-      let iconName;
-      if (route.name === "Listing") {
-        iconName = "home";
-      }
+const TabScreen = () => {
+  const { darkMode } = useSelector((state) => state.settings);
 
-      if (route.name === "Favorites") {
-        iconName = "heart";
-      }
+  return (
+    <Tabs.Navigator
+      screenOptions={({ route }) => ({
+        tabBarStyle: {
+          backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white,
+        },
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
 
-      return (
-        <Feather
-          name={iconName}
-          size={size}
-          color={color}
-        />
-      );
-    },
-    headerShown: false
-  })}>
-    <Tabs.Screen name="Listing" component={HomeScreen} />
-    <Tabs.Screen name="Favorites" component={FavoritesScreen} />
-  </Tabs.Navigator>
-);
+          if (color === "#8E8E8F") {
+            color = darkMode ? Theme.colors.white : Theme.colors.black;
+          }
+
+          if (route.name === "Listing") {
+            iconName = "home";
+          }
+
+          if (route.name === "Favorites") {
+            iconName = "heart";
+          }
+
+          return (
+            <Feather
+              name={iconName}
+              size={size}
+              color={color}
+            />
+          );
+        },
+        headerShown: false,
+        tabBarLabelStyle: {
+          color: darkMode ? Theme.colors.white : Theme.colors.black,
+        },
+      })}>
+      <Tabs.Screen name="Listing" component={HomeScreen} />
+      <Tabs.Screen name="Favorites" component={FavoritesScreen} />
+    </Tabs.Navigator>
+  );
+}
 
 const App = () => {
   const dispatch = useDispatch();

@@ -1,11 +1,8 @@
 import { Header, Text } from "@rneui/themed";
-import { useSelector } from "react-redux";
 import { Feather } from "@expo/vector-icons";
 import { Theme } from "../utils/constants";
 
-const CustomHeader = ({ navigation, routeName }) => {
-  const { darkMode } = useSelector((state) => state.settings);
-
+const CustomHeader = ({ navigation, routeName, darkMode }) => {
   const onNavigate = (name) => {
     navigation.navigate(name);
   }

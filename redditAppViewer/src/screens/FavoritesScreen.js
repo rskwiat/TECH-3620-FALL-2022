@@ -4,12 +4,14 @@ import { Text, Card, Overlay } from "@rneui/themed";
 import { CustomHeader, CustomCard } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { selectImage, removeFromFavorites } from "../redux/ListingReducer";
+import { Theme, PLACEHOLDER_IMAGE } from "../utils/constants";
 
 const FavoritesScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
 
   const { favorites, selectedImage } = useSelector((state) => state.listing);
+  const { darkMode } = useSelector((state) => state.settings);
 
   const openLargeImage = (data) => {
     setVisible(!visible);
@@ -20,22 +22,23 @@ const FavoritesScreen = ({ navigation, route }) => {
     if (favorites.length === 0) {
       return (
         <Card>
-          <Text style={{ textAlign: "center" }}>Add some Favorites</Text>
+          <Card.Title>No Favorites Saved</Card.Title>
         </Card>
       )
     }
   }
 
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
+        darkMode={darkMode}
       />
       <ScrollView>
         {renderAddToFavorites()}
         {favorites.map((favorite) => {
-          const thumbnail = (favorite.thumbnail === "nsfw") ? "https://via.placeholder.com/150" : favorite.thumbnail;
+          const thumbnail = (favorite.thumbnail === "nsfw") ? PLACEHOLDER_IMAGE : favorite.thumbnail;
 
           return (
             <CustomCard
@@ -45,6 +48,7 @@ const FavoritesScreen = ({ navigation, route }) => {
               thumbnail={thumbnail}
               onImagePress={() => openLargeImage(favorite)}
               onButtonPress={() => dispatch(removeFromFavorites(favorite))}
+              darkMode={darkMode}
               isFavorite
             />
           )
