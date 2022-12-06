@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { ScrollView, View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Text, Button, Card, Overlay } from "@rneui/themed";
+import { ScrollView, Image } from "react-native";
+import { Text, Card, Overlay } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CustomHeader, CustomCard, Loading } from "../components";
-import { Theme } from "../utils/constants";
+import { CustomHeader, CustomCard, Loading, CustomView } from "../components";
 import { getListingDetails, selectImage, addToFavorites } from "../redux/ListingReducer";
-
+import { PLACEHOLDER_IMAGE } from "../utils/constants";
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
+    <CustomView darkMode={darkMode}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
@@ -48,7 +47,7 @@ const HomeScreen = ({ navigation, route }) => {
         {statusCode === 400 && <Text>{message}</Text>}
         {renderError()}
         {response?.data?.children?.map(({ data }) => {
-          const thumbnail = (data.thumbnail === "nsfw") ? "https://via.placeholder.com/150" : data.thumbnail;
+          const thumbnail = (data.thumbnail === "nsfw") ? PLACEHOLDER_IMAGE : data.thumbnail;
 
           return (
             <CustomCard
@@ -73,7 +72,7 @@ const HomeScreen = ({ navigation, route }) => {
         </Overlay>
         }
       </ScrollView>
-    </View>
+    </CustomView>
   );
 }
 

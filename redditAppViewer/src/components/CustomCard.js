@@ -31,7 +31,7 @@ const CustomCard = ({
               name: isFavorite ? 'trash' : 'heart',
               type: 'feather',
               size: 24,
-              color: 'white',
+              color: Theme.colors.white,
             }}
             buttonStyle={{ marginTop: 20 }}
             color={isFavorite ? "error" : ""}

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { Text, Switch } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
-import { CustomHeader, Loading } from "../components";
+import { CustomHeader, Loading, CustomView } from "../components";
 import { getPrivacyDetails, setDarkMode } from "../redux/SettingsReducer";
 import { Theme } from "../utils/constants";
 
@@ -17,7 +17,7 @@ const SettingsScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
+    <CustomView darkMode={darkMode}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
@@ -56,7 +56,7 @@ const SettingsScreen = ({ navigation, route }) => {
           );
         })}
       </ScrollView>
-    </View>
+    </CustomView>
   );
 }
 
