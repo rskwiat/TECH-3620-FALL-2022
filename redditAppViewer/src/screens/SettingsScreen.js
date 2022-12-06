@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
-import { Text } from "@rneui/themed";
+import { Text, Switch } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomHeader, Loading } from "../components";
-import { getPrivacyDetails } from "../redux/SettingsReducer";
+import { getPrivacyDetails, setDarkMode } from "../redux/SettingsReducer";
 
 const SettingsScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const { response, isLoading, isFetchError } = useSelector(state => state.settings);
+  const { response, isLoading, isFetchError, darkMode } = useSelector(state => state.settings);
 
   useEffect(() => {
     if (response.data.length === 0) {
@@ -16,12 +16,24 @@ const SettingsScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-      <View style={{ flex: 1 }}>
-        <CustomHeader
-          navigation={navigation}
-          routeName={route.name}
+    <View style={{ flex: 1 }}>
+      <CustomHeader
+        navigation={navigation}
+        routeName={route.name}
+      />
+      <View style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        margin: 18,
+      }}>
+        <Text>Dark Mode</Text>
+        <Switch
+          value={darkMode}
+          onValueChange={() => dispatch(setDarkMode(!darkMode))}
         />
-        <ScrollView style={styles.container} scrollToOverflowEnabled>
+      </View>
+      <ScrollView style={styles.container} scrollToOverflowEnabled>
         {isLoading && <Loading />}
         {response && response.data.map((data) => {
           return (
@@ -34,9 +46,9 @@ const SettingsScreen = ({ navigation, route }) => {
             </View>
           );
         })}
-        </ScrollView>
-      </View>
-    );
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

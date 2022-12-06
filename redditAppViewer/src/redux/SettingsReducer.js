@@ -22,7 +22,9 @@ export const SettingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
-    //@todo enable darkmode not relying on system preferences
+    setDarkMode: (state, action) => {
+      state.darkMode = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getPrivacyDetails.pending, (state) => {
@@ -30,7 +32,7 @@ export const SettingsSlice = createSlice({
     });
     builder.addCase(getPrivacyDetails.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.response.data = action.payload.response;
+      state.response.data = action.payload.response.data;
       state.response.statusCode = action.payload.statusCode;
     });
     builder.addCase(getPrivacyDetails.rejected, (state) => {
@@ -40,5 +42,7 @@ export const SettingsSlice = createSlice({
     });
   },
 });
+
+export const { setDarkMode } = SettingsSlice.actions;
 
 export default SettingsSlice.reducer;

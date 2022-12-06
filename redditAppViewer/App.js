@@ -1,9 +1,12 @@
+import { useColorScheme } from "react-native";
+import { useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "./src/store";
+import { setDarkMode } from "./src/redux/SettingsReducer";
 
 import {
   HomeScreen,
@@ -27,7 +30,7 @@ const TabScreen = () => (
       }
 
       return (
-        <Feather 
+        <Feather
           name={iconName}
           size={size}
           color={color}
@@ -42,6 +45,13 @@ const TabScreen = () => (
 );
 
 const App = () => {
+  const dispatch = useDispatch();
+  const theme = useColorScheme();
+
+  useEffect(() => {
+    dispatch(setDarkMode(theme === "dark" ? true : false));
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
