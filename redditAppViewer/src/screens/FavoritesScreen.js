@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { View, ScrollView, Image } from "react-native";
 import { Card, Overlay } from "@rneui/themed";
-import { CustomHeader, CustomCard, CustomView } from "../components";
+import { CustomHeader, CustomCard } from "../components";
 import { useDispatch, useSelector } from "react-redux";
 import { selectImage, removeFromFavorites } from "../redux/ListingReducer";
-import { PLACEHOLDER_IMAGE } from "../utils/constants";
+import { PLACEHOLDER_IMAGE, Theme } from "../utils/constants";
 
 const FavoritesScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
@@ -29,7 +29,7 @@ const FavoritesScreen = ({ navigation, route }) => {
   }
 
   return (
-    <CustomView darkMode={darkMode}>
+    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
@@ -64,7 +64,7 @@ const FavoritesScreen = ({ navigation, route }) => {
         </Overlay>
         }
       </ScrollView>
-    </CustomView>
+    </View>
   );
 }
 

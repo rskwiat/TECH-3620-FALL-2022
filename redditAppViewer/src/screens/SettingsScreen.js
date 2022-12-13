@@ -17,7 +17,7 @@ const SettingsScreen = ({ navigation, route }) => {
   }, []);
 
   return (
-    <CustomView darkMode={darkMode}>
+    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
@@ -56,7 +56,7 @@ const SettingsScreen = ({ navigation, route }) => {
           );
         })}
       </ScrollView>
-    </CustomView>
+    </View>
   );
 }
 

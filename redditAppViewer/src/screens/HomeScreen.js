@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { ScrollView, Image } from "react-native";
+import { ScrollView, Image, View } from "react-native";
 import { Text, Card, Overlay } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CustomHeader, CustomCard, Loading, CustomView } from "../components";
+import { CustomHeader, CustomCard, Loading } from "../components";
 import { getListingDetails, selectImage, addToFavorites } from "../redux/ListingReducer";
-import { PLACEHOLDER_IMAGE } from "../utils/constants";
+import { PLACEHOLDER_IMAGE, Theme } from "../utils/constants";
+
 const HomeScreen = ({ navigation, route }) => {
   const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ const HomeScreen = ({ navigation, route }) => {
   };
 
   return (
-    <CustomView darkMode={darkMode}>
+    <View style={{ flex: 1, backgroundColor: darkMode ? Theme.colors.black : Theme.colors.white }}>
       <CustomHeader
         navigation={navigation}
         routeName={route.name}
@@ -72,7 +73,7 @@ const HomeScreen = ({ navigation, route }) => {
         </Overlay>
         }
       </ScrollView>
-    </CustomView>
+    </View>
   );
 }
 
